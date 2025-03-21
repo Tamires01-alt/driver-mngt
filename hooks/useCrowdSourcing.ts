@@ -3,7 +3,7 @@ import { LatLonBounds } from "leaflet";
 
 type Store = {
   selected: number[];
-  setSelected: (newSelected: number) => void;
+  setSelected: (newSelected: number | number[]) => void;
   bound: any;
   setBound: any;
 };
