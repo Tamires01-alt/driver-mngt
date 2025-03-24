@@ -39,17 +39,18 @@ export default async function Preferences() {
     value: `${location.buyer_city}_${location.cep5}`,
     label: `CEP - ${location.cep5}-XXX`,
   }));
+
   
 
   return (
-    <div>
+    <div className="mb-20 flex flex-col gap-5">
       <SelectCep
         options={cepOptions} 
         descriptionCard="Selecione pelo menos 3 áreas de preferência"
         city={locations.length > 0 ? locations[0].buyer_city : "Cidade não disponível"} 
       />
 
-      <div> dddddddddddd jkldfjkljkdlgfkjl</div>
+      <div> </div>
     <PreferencesForm
       incentiveAlert
       user={session?.user}
