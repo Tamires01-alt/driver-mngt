@@ -23,7 +23,7 @@ export default async function Preferences() {
 
   const { choosed_station, mode } = await getCurrentMode();
 
-  if (mode === "OF") {
+  if (mode === "OF" || session?.user?.station == "LM Hub_SP_São Paulo_Mooca") {
     redirect("/driver-panel/clusters");
   }
 

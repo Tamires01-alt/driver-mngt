@@ -7,11 +7,14 @@ export default async function Home() {
 
   if (!session) return <div>Not authenticated</div>;
 
-  if (session.user.ownflex) {
+  if (
+    session.user?.ownflex ||
+    session.user?.station == "LM Hub_SP_São Paulo_Mooca"
+  ) {
     redirect("/driver-panel");
   }
 
-  if (!session.user.trips) {
+  if (!session.user?.trips) {
     redirect("/primeira-entrega");
   } else {
     redirect("/driver-panel");

@@ -15,6 +15,7 @@ import { Spinner } from "./spinner";
 import { AlertTitle, Alert, AlertDescription } from "@/components/ui/alert";
 import { TriangleAlert } from "lucide-react";
 import HubSelection from "@/components/hub-select";
+import OnboardingLm from "./onboarding-lm";
 
 const formatHub = (hub) => {
   if (!hub) return;
@@ -61,6 +62,8 @@ export default async function HomeLm({ driverFirstName }) {
             />
           </Alert>
         ) : null}
+
+        <OnboardingLm pendencias={["Learning"]} />
       </CardHeader>
 
       <CardContent className="space-y-6">

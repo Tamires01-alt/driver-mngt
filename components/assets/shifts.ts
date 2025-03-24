@@ -8,3 +8,8 @@ export const LastMileShifts = [
   { id: "PM", description: "PM" },
   { id: "SD", description: "SD" },
 ];
+
+export const FirstTripShifts = [
+  { id: "AM", description: "De 6AM a 9AM" },
+  { id: "PM", description: "De 14PM a 18PM" },
+];

@@ -24,7 +24,18 @@ import {
 import Link from "next/link";
 
 import { getCurrentMode } from "@/lib/getCurrentMode";
-import { OwnFlexShifts, LastMileShifts } from "@/components/assets/shifts";
+import {
+  OwnFlexShifts,
+  LastMileShifts,
+  FirstTripShifts,
+} from "@/components/assets/shifts";
+
+const getShifts = (mode: string, trips: number) => {
+  if (mode === "OF") {
+    return OwnFlexShifts;
+  }
+  return trips > 0 ? LastMileShifts : FirstTripShifts;
+};
 
 export default async function Disponibilidade() {
   const session = await auth();
@@ -71,7 +82,7 @@ export default async function Disponibilidade() {
     redirect("/driver-panel");
   }
 
-  const shiftsOptions = mode === "OF" ? OwnFlexShifts : LastMileShifts;
+  let shiftsOptions = getShifts(mode, session?.user.trips);
 
   return (
     <Card>
