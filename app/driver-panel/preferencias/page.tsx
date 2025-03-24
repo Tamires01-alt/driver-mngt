@@ -1,18 +1,20 @@
 import PreferencesForm from "@/components/preferences-form";
+import SelectCep from "@/app/components/selectCep"
 import { auth } from "@/auth";
+import { MapPin } from "lucide-react";
 import { getPreferences } from "@/lib/db/preferences";
 import { getLocations } from "@/gsheets/locations";
 import { redirect } from "next/navigation";
 import { getCurrentMode } from "@/lib/getCurrentMode";
 
-function formatCep(input) {
-  let number = input.toString();
+// function formatCep(input) {
+//   let number = input.toString();
 
-  if (number.length === 7) {
-    number = "0" + number;
-  }
-  return number.slice(0, 5) + "-" + number.slice(5);
-}
+//   if (number.length === 7) {
+//     number = "0" + number;
+//   }
+//   return number.slice(0, 5) + "-" + number.slice(5);
+// }
 
 export default async function Preferences() {
   const session = await auth();
@@ -28,9 +30,26 @@ export default async function Preferences() {
     choosed_station
   );
 
+
   const locations = await getLocations(choosed_station);
 
+
+
+  const cepOptions = locations.map((location) => ({
+    value: `${location.buyer_city}_${location.cep5}`,
+    label: `CEP - ${location.cep5}-XXX`,
+  }));
+  
+
   return (
+    <div>
+      <SelectCep
+        options={cepOptions} 
+        descriptionCard="Selecione pelo menos 3 áreas de preferência"
+        city={locations.length > 0 ? locations[0].buyer_city : "Cidade não disponível"} 
+      />
+
+      <div> dddddddddddd jkldfjkljkdlgfkjl</div>
     <PreferencesForm
       incentiveAlert
       user={session?.user}
@@ -44,5 +63,6 @@ export default async function Preferences() {
         priority: location.priority,
       }))}
     />
+    </div>
   );
 }
