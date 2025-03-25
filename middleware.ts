@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-const envSecret = process.env.SECRET;
+const envSecret = process.env.API_SECRET;
 
 export default function middleware(req) {
   const { pathname } = req.nextUrl;
