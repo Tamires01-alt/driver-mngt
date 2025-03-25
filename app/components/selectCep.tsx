@@ -1,8 +1,11 @@
-"use client";
+"use client"; 
+
+
 import { MapPin } from "lucide-react";
 import React, { useState } from "react";
 import { TrashIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
+import { savePreferences } from "@/lib/db/preferences";
 import {
   Select,
   SelectContent,
@@ -13,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardDescription } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 interface SelectOption {
   value: string;
@@ -23,10 +27,28 @@ interface SelectCepProps {
   options: SelectOption[];
   descriptionCard: string;
   city: string;
+  driverId: string;
+  driverName: string;
+  phone: string;
+  station: string;
+  vehicle: string;
+  choosed_station: string;
 }
 
-export default function SelectCep({ options, descriptionCard, city }: SelectCepProps) {
+export default function SelectCep({
+  options,
+  descriptionCard,
+  city,
+  driverId,
+  driverName,
+  phone,
+  station,
+  vehicle,
+  choosed_station,
+}: SelectCepProps) {
   const [selectedCeps, setSelectedCeps] = useState<string[]>(["", "", ""]);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleAddCep = () => {
     setSelectedCeps((prev) => [...prev, ""]);
@@ -45,6 +67,38 @@ export default function SelectCep({ options, descriptionCard, city }: SelectCepP
   };
 
   const isButtonDisabled = selectedCeps.filter((cep) => cep.trim() !== "").length < 3;
+
+  const onSubmit = async () => {
+    try {
+      setLoading(true);
+
+      const preferencesData = selectedCeps.map((cep) => ({
+        driver_id: driverId.toString(),
+        driver_name: driverName,
+        phone: phone.toString(),
+        station: choosed_station,
+        vehicle: vehicle,
+        city: city,
+        cep: cep,
+      }));
+
+      await savePreferences(preferencesData, choosed_station);
+
+      toast({
+        title: "Pronto!",
+        description: "Suas preferências foram salvas!",
+      });
+
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      toast({
+        title: "Ops!",
+        description: "Algo deu errado.",
+      });
+      console.log(err);
+    }
+  };
 
   return (
     <Card className="p-8">
@@ -92,8 +146,8 @@ export default function SelectCep({ options, descriptionCard, city }: SelectCepP
             <PlusCircledIcon className="h-5 w-5" />
           </button>
           <div className="flex justify-end">
-            <Button type="button" disabled={isButtonDisabled}>
-              Salvar Alterações
+            <Button type="button" disabled={isButtonDisabled || loading} onClick={onSubmit}>
+              {loading ? "Salvando..." : "Salvar Alterações"}
             </Button>
           </div>
         </div>

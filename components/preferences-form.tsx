@@ -117,9 +117,6 @@ export default ({
 
   const onSubmit = React.useCallback(
     async function onSubmit() {
-      // Do something with the form values.
-      // ✅ This will be type-safe and validated.
-
       try {
         setLoading(true);
 
@@ -163,7 +160,7 @@ export default ({
     [preferences]
   );
   return (
-    <Card c>
+    <Card >
       <CardHeader>
         <CardTitle className="flex gap-4 items-center">
           <MapPin height={32} width={32} /> Áreas de entrega
