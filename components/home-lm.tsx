@@ -16,6 +16,16 @@ import { AlertTitle, Alert, AlertDescription } from "@/components/ui/alert";
 import { TriangleAlert } from "lucide-react";
 import HubSelection from "@/components/hub-select";
 import OnboardingLm from "./onboarding-lm";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { SquarePen } from "lucide-react";
+import { MapPin, Calendar } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const formatHub = (hub) => {
   if (!hub) return;
@@ -63,13 +73,78 @@ export default async function HomeLm({ driverFirstName }) {
           </Alert>
         ) : null}
 
-        <OnboardingLm pendencias={["Learning"]} />
+        <OnboardingLm
+          pendencias={["Learning", "Disponibilidade", "Preferências", "EPI"]}
+        />
       </CardHeader>
 
       <CardContent className="space-y-6">
-        <Suspense fallback={<Spinner />}>
+        <CardTitle className="text-2xl">+ Informações Úteis</CardTitle>
+
+        <Accordion defaultValue="address" type="single" collapsible>
+          <AccordionItem value="address">
+            <AccordionTrigger className="text-xl">
+              <span className="flex justify-start items-center gap-4">
+                <MapPin size={24} />
+                Endereço de Coleta
+              </span>
+            </AccordionTrigger>
+
+            <AccordionContent>
+              <Suspense fallback={<Spinner />}>
+                <StaticMap title={"Coleta"} />
+              </Suspense>
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="datetime">
+            <AccordionTrigger className="text-xl">
+              <span className="flex justify-start items-center gap-4">
+                <Calendar size={24} />
+                Dias e horário
+              </span>
+            </AccordionTrigger>
+
+            <AccordionContent>
+              <CardDescription className="flex flex-col gap-4">
+                <div>
+                  Segunda a sábado (domingos são informados previamente)
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="font-bold">Janela 1: 6 às 10h </div>
+                  <div className="font-bold">Janela 2: 15:30 às 18h</div>
+                </div>
+              </CardDescription>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+
+        {/* <Suspense fallback={<Spinner />}>
           <StaticMap title={formatHub(choosed_station)} />
-        </Suspense>
+        </Suspense> */}
+
+        <div className="flex flex-col gap-4">
+          <Link href="https://forms.gle/o1CmdEY5qNUn5hFJ7" target="_blank">
+            <Button>
+              <div className="flex items-center gap-2 font-bold">
+                <SquarePen />
+                Alterar dados cadastrais
+              </div>
+            </Button>
+          </Link>
+
+          {/* <Link
+            href={`https://wa.me/551128386686?text=Ol%C3%A1%2C%20preciso%20de%20ajuda.%20Sou%20entregador%20OwnFlex%20e%20meu%20id%20%C3%A9%3A%20${session?.user.driverId}`}
+            target="_blank"
+          >
+            <Button variant="whatsapp">
+              <div className="flex items-center space-x-2">
+                <Image src={Whatsapp} alt="Whatsapp" height={36} width={36} />
+                Precisa de Ajuda?
+              </div>
+            </Button>
+          </Link> */}
+        </div>
         <div className="flex justify-end">
           <SignoutButton />
         </div>

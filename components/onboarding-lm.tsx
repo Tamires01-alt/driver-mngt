@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { getDescription } from "@/lib/utils";
-import learning from "@/components/assets/learning.mp4";
 
 import TodoAlert from "./todo-alert";
 
@@ -32,7 +31,7 @@ export default function OnboardingOwnFlex({ pendencias = [] }) {
       <TodoAlert amount={pendencias.length} />
       <Accordion type="single" collapsible>
         {pendencias.includes("Learning") && (
-          <AccordionItem value="preferences">
+          <AccordionItem value="learning">
             <AccordionTrigger className="text-xl">
               <span className="flex justify-start items-center gap-4">
                 <TriangleAlert
@@ -47,7 +46,9 @@ export default function OnboardingOwnFlex({ pendencias = [] }) {
               Você foi escalado para realizar entregas nos seguintes horários:
               <video controls>
                 <source
-                  src={learning} //"https://drive.google.com/uc?export=download&id=1jwHYF2zvA3GvumeYyWdbQ2m-pW1-iRr1"
+                  src={
+                    "https://drive.google.com/uc?export=download&id=1jwHYF2zvA3GvumeYyWdbQ2m-pW1-iRr1"
+                  }
                   type="video/mp4"
                 />
               </video>
@@ -55,7 +56,24 @@ export default function OnboardingOwnFlex({ pendencias = [] }) {
             </AccordionContent>
           </AccordionItem>
         )}
-
+        {pendencias.includes("EPI") && (
+          <AccordionItem value="epi">
+            <AccordionTrigger className="text-xl">
+              <span className="flex justify-start items-center gap-4">
+                <TriangleAlert
+                  size={36}
+                  className="animate-pulse"
+                  color="#EE4D2D"
+                />
+                Equipamentos
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4">
+              Você foi escalado para realizar entregas nos seguintes horários:
+              <span className="font-bold">Contamos com a sua presença!</span>
+            </AccordionContent>
+          </AccordionItem>
+        )}
         {pendencias.includes("Preferências") && (
           <AccordionItem value="preferences">
             <AccordionTrigger className="text-xl">
