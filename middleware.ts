@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { NextResponse } from "next/server";
 
 const envSecret = process.env.SECRET;
 
@@ -11,6 +12,8 @@ export default function middleware(req) {
     if (secret !== envSecret) {
       return new Response("Unauthorized", { status: 401 });
     }
+
+    return NextResponse.next();
   }
 
   if (!req.auth && pathname !== "/login") {
