@@ -1,5 +1,5 @@
 import PreferencesForm from "@/components/preferences-form";
-import SelectCep from "@/app/components/selectCep"
+import SelectCep from "@/app/components/preference/selectCep"
 import { auth } from "@/auth";
 import { MapPin } from "lucide-react";
 import { getPreferences } from "@/lib/db/preferences";
@@ -42,7 +42,7 @@ export default async function Preferences() {
   // console.log("mode", mode)
   // console.log("preferences", preferences)
   // console.log("locations", locations)
-  
+
 
 
 
@@ -56,7 +56,7 @@ export default async function Preferences() {
   return (
     <div className="mb-20 flex flex-col gap-5">
       <SelectCep
-        options={cepOptions} 
+        options={cepOptions}
         descriptionCard="Selecione pelo menos 3 áreas de preferência"
         city={locations.length > 0 ? locations[0].buyer_city : "Cidade não disponível"}
         driverId={session?.user?.driverId}
@@ -64,23 +64,22 @@ export default async function Preferences() {
         phone={session?.user?.phone}
         station={session?.user?.station}
         vehicle={session?.user?.vehicle}
+        redirectTo={"/driver-panel"}
         choosed_station={choosed_station}
       />
-
-      <div> </div>
-    <PreferencesForm
-      incentiveAlert
-      user={session?.user}
-      choosed_station={choosed_station}
-      redirectTo={"/driver-panel"}
-      preloadedPreferences={preferences}
-      regions={locations.map((location) => ({
-        value: `${location.buyer_city}_${location.cep5}`,
-        label: `CEP - ${location.cep5}-XXX`,
-        incentive: location.incentive,
-        priority: location.priority,
-      }))}
-    />
+      {/* <PreferencesForm
+        incentiveAlert
+        user={session?.user}
+        choosed_station={choosed_station}
+        redirectTo={"/driver-panel"}
+        preloadedPreferences={preferences}
+        regions={locations.map((location) => ({
+          value: `${location.buyer_city}_${location.cep5}`,
+          label: `CEP - ${location.cep5}-XXX`,
+          incentive: location.incentive,
+          priority: location.priority,
+        }))}
+      /> */}
     </div>
   );
 }

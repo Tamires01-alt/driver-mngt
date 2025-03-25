@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 
 import { MapPin } from "lucide-react";
@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { TrashIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { savePreferences } from "@/lib/db/preferences";
+import { useRouter } from "next/navigation";
 import {
   Select,
   SelectContent,
@@ -33,6 +34,7 @@ interface SelectCepProps {
   station: string;
   vehicle: string;
   choosed_station: string;
+  redirectTo: null;
 }
 
 export default function SelectCep({
@@ -42,6 +44,7 @@ export default function SelectCep({
   driverId,
   driverName,
   phone,
+  redirectTo,
   station,
   vehicle,
   choosed_station,
@@ -49,6 +52,7 @@ export default function SelectCep({
   const [selectedCeps, setSelectedCeps] = useState<string[]>(["", "", ""]);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleAddCep = () => {
     setSelectedCeps((prev) => [...prev, ""]);
@@ -88,6 +92,10 @@ export default function SelectCep({
         title: "Pronto!",
         description: "Suas preferências foram salvas!",
       });
+      if (!!redirectTo) {
+        router.push(redirectTo);
+        return;
+      }
 
       setLoading(false);
     } catch (err) {
@@ -122,7 +130,7 @@ export default function SelectCep({
                   <SelectGroup>
                     <SelectLabel>{city}</SelectLabel>
                     {options
-                      .filter((option) => !selectedCeps.includes(option.value) || option.value === cep) // Filtra opções já selecionadas
+                      .filter((option) => !selectedCeps.includes(option.value) || option.value === cep)
                       .map((option) => (
                         <SelectItem className="text-black" key={option.value} value={option.value}>
                           {option.label}
