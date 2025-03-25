@@ -7,23 +7,10 @@ import {
 import { TriangleAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { getDescription } from "@/lib/utils";
+import Image from "next/image";
+import learning from "@/components/assets/learning.gif";
 
 import TodoAlert from "./todo-alert";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogDescription,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { deleteAllocation } from "@/lib/db/allocations";
-import CancelAllocationDialog from "./cancel-allocation-dialog";
 
 export default function OnboardingOwnFlex({ pendencias = [] }) {
   return (
@@ -43,16 +30,16 @@ export default function OnboardingOwnFlex({ pendencias = [] }) {
               </span>
             </AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4">
-              Você foi escalado para realizar entregas nos seguintes horários:
-              <video controls>
-                <source
-                  src={
-                    "https://drive.google.com/uc?export=download&id=1jwHYF2zvA3GvumeYyWdbQ2m-pW1-iRr1"
-                  }
-                  type="video/mp4"
-                />
-              </video>
-              <span className="font-bold">Contamos com a sua presença!</span>
+              <span>
+                Para acessar o treinamento, abra o seu{" "}
+                <strong>App Driver</strong> e siga os passos abaixo:
+              </span>
+              <Image
+                src={learning}
+                alt="Treinamento Online"
+                width={500}
+                height={300}
+              />
             </AccordionContent>
           </AccordionItem>
         )}
@@ -69,8 +56,11 @@ export default function OnboardingOwnFlex({ pendencias = [] }) {
               </span>
             </AccordionTrigger>
             <AccordionContent className="flex flex-col gap-4">
-              Você foi escalado para realizar entregas nos seguintes horários:
-              <span className="font-bold">Contamos com a sua presença!</span>
+              <span>
+                Sua segurança é nossa prioridade! Garanta que você possui os
+                equipamentos informados no treinamento. Sem eles não será
+                possível realizar entregas!
+              </span>
             </AccordionContent>
           </AccordionItem>
         )}

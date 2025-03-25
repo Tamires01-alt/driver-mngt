@@ -12,27 +12,25 @@ export default async function DriverPanel() {
   const driverFirstName = session?.user.driverName.split(" ")[0];
 
   const { choosed_station, mode, options } = await getCurrentMode();
+  const [preferences, bookings, allocations] = await Promise.all([
+    getPreferences(session?.user.driverId.toString(), choosed_station),
+    getAvailability(session?.user.driverId.toString(), choosed_station),
+    getAllocations(),
+  ]);
 
+  const pendencias = [];
+  if (bookings.length == 0) {
+    pendencias.push("Disponibilidade");
+  }
+
+  if (preferences.length < 5) {
+    pendencias.push("Preferências");
+  }
+
+  if (allocations?.length > 0) {
+    pendencias.push("Rotas");
+  }
   if (mode === "OF") {
-    const [preferences, bookings, allocations] = await Promise.all([
-      getPreferences(session?.user.driverId.toString(), choosed_station),
-      getAvailability(session?.user.driverId.toString(), choosed_station),
-      getAllocations(),
-    ]);
-
-    const pendencias = [];
-    if (bookings.length == 0) {
-      pendencias.push("Disponibilidade");
-    }
-
-    if (preferences.length < 5) {
-      pendencias.push("Preferências");
-    }
-
-    if (allocations?.length > 0) {
-      pendencias.push("Rotas");
-    }
-
     return (
       <div className="h-full relative">
         <Badge
@@ -62,7 +60,10 @@ export default async function DriverPanel() {
 
   return (
     <>
-      <HomeLm driverFirstName={driverFirstName} />
+      <HomeLm
+        driverFirstName={driverFirstName}
+        pendencias={[...pendencias, "Learning", "EPI"]}
+      />
     </>
   );
 }

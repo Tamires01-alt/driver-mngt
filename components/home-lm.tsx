@@ -33,7 +33,7 @@ const formatHub = (hub) => {
   return hub.split("_")[2];
 };
 
-export default async function HomeLm({ driverFirstName }) {
+export default async function HomeLm({ driverFirstName, pendencias }) {
   const { choosed_station, options, mode } = await getCurrentMode();
   const session = await auth();
   const station = session.user.station;
@@ -73,9 +73,7 @@ export default async function HomeLm({ driverFirstName }) {
           </Alert>
         ) : null}
 
-        <OnboardingLm
-          pendencias={["Learning", "Disponibilidade", "Preferências", "EPI"]}
-        />
+        <OnboardingLm pendencias={pendencias} />
       </CardHeader>
 
       <CardContent className="space-y-6">

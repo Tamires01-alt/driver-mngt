@@ -1,14 +1,26 @@
 import { auth } from "@/auth";
 
-export default auth((req) => {
-  if (!req.auth && req.nextUrl.pathname !== "/login") {
+const envSecret = process.env.SECRET;
+
+export default function middleware(req) {
+  const { pathname } = req.nextUrl;
+
+  if (pathname.startsWith("/api")) {
+    const secret = req.headers.get("x-api-secret");
+
+    if (secret !== envSecret) {
+      return new Response("Unauthorized", { status: 401 });
+    }
+  }
+
+  if (!req.auth && pathname !== "/login") {
     const newUrl = new URL("/login", req.nextUrl.origin);
     return Response.redirect(newUrl);
   }
-});
+}
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|interno|error|integracao|favicon.ico).*)",
+    "/((?!_next/static|_next/image|interno|error|integracao|favicon.ico).*)",
   ],
 };
