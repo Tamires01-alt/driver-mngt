@@ -18,7 +18,7 @@ export async function fetchDates(ownflex = false, days: number = 3) {
 
   const limit = new Date();
 
-  if (isLaterThan(22)) {
+  if (isLaterThan(23)) {
     limit.setDate(limit.getDate() + 1);
   }
 
