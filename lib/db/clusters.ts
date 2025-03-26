@@ -31,7 +31,7 @@ export async function savePreferences(clusters, user, choosed_station = null) {
       vehicle: user.vehicle,
       city: "",
       cep: cluster,
-      ownflex: user.ownflex,
+      ownflex: !!user.ownflex,
     }));
 
     await prisma.$transaction([
