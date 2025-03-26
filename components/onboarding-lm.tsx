@@ -17,53 +17,6 @@ export default function OnboardingOwnFlex({ pendencias = [] }) {
     <>
       <TodoAlert amount={pendencias.length} />
       <Accordion type="single" collapsible>
-        {pendencias.includes("Learning") && (
-          <AccordionItem value="learning">
-            <AccordionTrigger className="text-xl">
-              <span className="flex justify-start items-center gap-4">
-                <TriangleAlert
-                  size={36}
-                  className="animate-pulse"
-                  color="#EE4D2D"
-                />
-                Treinamento Online
-              </span>
-            </AccordionTrigger>
-            <AccordionContent className="flex flex-col gap-4">
-              <span>
-                Para acessar o treinamento, abra o seu{" "}
-                <strong>App Driver</strong> e siga os passos abaixo:
-              </span>
-              <Image
-                src={learning}
-                alt="Treinamento Online"
-                width={500}
-                height={300}
-              />
-            </AccordionContent>
-          </AccordionItem>
-        )}
-        {pendencias.includes("EPI") && (
-          <AccordionItem value="epi">
-            <AccordionTrigger className="text-xl">
-              <span className="flex justify-start items-center gap-4">
-                <TriangleAlert
-                  size={36}
-                  className="animate-pulse"
-                  color="#EE4D2D"
-                />
-                Equipamentos
-              </span>
-            </AccordionTrigger>
-            <AccordionContent className="flex flex-col gap-4">
-              <span>
-                Sua segurança é nossa prioridade! Garanta que você possui os
-                equipamentos informados no treinamento. Sem eles não será
-                possível realizar entregas!
-              </span>
-            </AccordionContent>
-          </AccordionItem>
-        )}
         {pendencias.includes("Preferências") && (
           <AccordionItem value="preferences">
             <AccordionTrigger className="text-xl">

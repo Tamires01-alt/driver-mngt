@@ -60,10 +60,7 @@ export default async function DriverPanel() {
 
   return (
     <>
-      <HomeLm
-        driverFirstName={driverFirstName}
-        pendencias={[...pendencias, "Learning", "EPI"]}
-      />
+      <HomeLm driverFirstName={driverFirstName} pendencias={pendencias} />
     </>
   );
 }

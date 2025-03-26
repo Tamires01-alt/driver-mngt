@@ -20,6 +20,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { SquarePen } from "lucide-react";
 import { MapPin, Calendar } from "lucide-react";
+import Image from "next/image";
+import learning from "@/components/assets/learning.gif";
+import epi from "@/components/assets/epi.gif";
 import {
   Accordion,
   AccordionContent,
@@ -92,6 +95,55 @@ export default async function HomeLm({ driverFirstName, pendencias }) {
               <Suspense fallback={<Spinner />}>
                 <StaticMap title={"Coleta"} />
               </Suspense>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="learning">
+            <AccordionTrigger className="text-xl">
+              <span className="flex justify-start items-center gap-4">
+                <TriangleAlert
+                  size={36}
+                  className="animate-pulse"
+                  color="#EE4D2D"
+                />
+                Treinamento Online
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4">
+              <span>
+                Para acessar o treinamento, abra o seu{" "}
+                <strong>App Driver</strong> e siga os passos abaixo:
+              </span>
+              <Image
+                src={learning}
+                alt="Treinamento Online"
+                width={500}
+                height={300}
+              />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="epi">
+            <AccordionTrigger className="text-xl">
+              <span className="flex justify-start items-center gap-4">
+                <TriangleAlert
+                  size={36}
+                  className="animate-pulse"
+                  color="#EE4D2D"
+                />
+                Equipamentos
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="flex flex-col gap-4">
+              <span>
+                Sua segurança é nossa prioridade! Garanta que você possui os
+                equipamentos informados no treinamento. Sem eles não será
+                possível realizar entregas!
+                <Image
+                  src={epi}
+                  alt="Equipamentos de Segurança"
+                  width={500}
+                  height={300}
+                />
+              </span>
             </AccordionContent>
           </AccordionItem>
 
