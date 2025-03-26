@@ -3,8 +3,12 @@ import { NextResponse } from "next/server";
 
 const envSecret = process.env.API_SECRET;
 
+var count = 0;
+
 export default auth((req) => {
   const { pathname } = req.nextUrl;
+  count++;
+  console.log("Requests: ", count);
 
   if (pathname.startsWith("/api")) {
     const secret = req.headers.get("x-api-secret");

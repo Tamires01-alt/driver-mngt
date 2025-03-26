@@ -13,7 +13,7 @@ import { getCurrentMode } from "@/lib/getCurrentMode";
 import { Suspense } from "react";
 import { Spinner } from "./spinner";
 import { AlertTitle, Alert, AlertDescription } from "@/components/ui/alert";
-import { TriangleAlert } from "lucide-react";
+import { TriangleAlert, BookOpenText, HardHat } from "lucide-react";
 import HubSelection from "@/components/hub-select";
 import OnboardingLm from "./onboarding-lm";
 import { Button } from "@/components/ui/button";
@@ -100,11 +100,7 @@ export default async function HomeLm({ driverFirstName, pendencias }) {
           <AccordionItem value="learning">
             <AccordionTrigger className="text-xl">
               <span className="flex justify-start items-center gap-4">
-                <TriangleAlert
-                  size={36}
-                  className="animate-pulse"
-                  color="#EE4D2D"
-                />
+                <BookOpenText size={24} color="#EE4D2D" />
                 Treinamento Online
               </span>
             </AccordionTrigger>
@@ -124,11 +120,7 @@ export default async function HomeLm({ driverFirstName, pendencias }) {
           <AccordionItem value="epi">
             <AccordionTrigger className="text-xl">
               <span className="flex justify-start items-center gap-4">
-                <TriangleAlert
-                  size={36}
-                  className="animate-pulse"
-                  color="#EE4D2D"
-                />
+                <HardHat size={24} color="#EE4D2D" />
                 Equipamentos
               </span>
             </AccordionTrigger>
