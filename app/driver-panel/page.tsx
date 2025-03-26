@@ -42,6 +42,7 @@ export default async function DriverPanel() {
 
 
   const { choosed_station, mode, options } = await getCurrentMode();
+
   const station = session?.user.station;
 
 
@@ -59,6 +60,25 @@ export default async function DriverPanel() {
   }
 
 
+  const [preferences, bookings, allocations] = await Promise.all([
+    getPreferences(session?.user.driverId.toString(), choosed_station),
+    getAvailability(session?.user.driverId.toString(), choosed_station),
+    getAllocations(),
+  ]);
+
+
+  const pendencias = [];
+  if (bookings.length == 0) {
+    pendencias.push("Disponibilidade");
+  }
+
+  if (preferences.length < 5) {
+    pendencias.push("Preferências");
+  }
+
+  if (allocations?.length > 0) {
+    pendencias.push("Rotas");
+  }
   if (mode === "OF") {
     const [preferences, bookings, allocations] = await Promise.all([
       getPreferences(session?.user.driverId.toString(), choosed_station),
@@ -130,6 +150,7 @@ export default async function DriverPanel() {
       { value: "LM", label: station.split("_")[2] },
       { value: "OF Hub_SP_Lapa", label: "Entrega Rápida - Lapa" }
     ];
+
 
 
     return (
@@ -217,7 +238,10 @@ export default async function DriverPanel() {
 
   return (
     <>
-      <HomeLm driverFirstName={driverName} />
+
+      <HomeLm driverFirstName={driverName} pendencias={pendencias}/>
+      {/* <HomeLm driverFirstName={driverFirstName} pendencias={pendencias} /> */}
+
     </>
   );
 } 
