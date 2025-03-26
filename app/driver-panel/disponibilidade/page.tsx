@@ -24,11 +24,29 @@ import {
 import Link from "next/link";
 
 import { getCurrentMode } from "@/lib/getCurrentMode";
-import { OwnFlexShifts, LastMileShifts } from "@/components/assets/shifts";
+import {
+  OwnFlexShifts,
+  LastMileShifts,
+  FirstTripShifts,
+} from "@/components/assets/shifts";
+
+const getShifts = (mode: string, trips: number) => {
+  if (mode === "OF") {
+    return OwnFlexShifts;
+  }
+  return trips > 0 ? LastMileShifts : FirstTripShifts;
+};
 
 export default async function Disponibilidade() {
   const session = await auth();
-
+  const checks =
+    session?.user.vehicle === "MOTO"
+      ? [
+          "Bota de segurança com certificado de aprovação",
+          "Colete Refletivo",
+          "Alforje ou Baú fechado com capacidade mínima de 80L",
+        ]
+      : ["Bota de segurança com certificado de aprovação", "Colete Refletivo"];
   const dates = await fetchDates();
 
   const { choosed_station, mode, options } = await getCurrentMode();
@@ -71,7 +89,7 @@ export default async function Disponibilidade() {
     redirect("/driver-panel");
   }
 
-  const shiftsOptions = mode === "OF" ? OwnFlexShifts : LastMileShifts;
+  let shiftsOptions = getShifts(mode, session?.user.trips);
 
   return (
     <Card className="bg-white w-full h-auto p-3 rounded-md flex gap-2 flex-col md:w-96">
@@ -96,6 +114,7 @@ export default async function Disponibilidade() {
           )}
           station={choosed_station}
           ownflex={mode === "OF" ? true : false}
+          checks={checks}
         />
       </CardContent>
     </Card>

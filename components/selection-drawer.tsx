@@ -39,7 +39,8 @@ export const SelectionDrawer = ({ serverSession }) => {
       });
 
       router.push(
-        serverSession.user.trips > 0
+        serverSession.user.trips > 0 ||
+          serverSession.user.station == "LM Hub_SP_São Paulo_Mooca"
           ? "/driver-panel"
           : "/primeira-entrega/data"
       );

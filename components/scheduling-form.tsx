@@ -11,6 +11,19 @@ import { Button } from "@/components/ui/button";
 import DateCheckbox from "./date-checkbox";
 import { motion } from "framer-motion";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import worker from "@/components/assets/warehouse-worker.svg";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import Image from "next/image";
 
 interface SchedulingProps {
   dates: Array<{
@@ -37,8 +50,10 @@ export default function Scheduling({
   shiftsOptions,
   station,
   ownflex,
+  checks,
 }: SchedulingProps) {
   const { toast } = useToast();
+  const [checked, setChecked] = React.useState([]);
 
   const form = useForm<FormValues>({
     defaultValues: dates.reduce((acc, date) => {
@@ -175,13 +190,64 @@ export default function Scheduling({
           ></motion.div>
         </motion.div>
         <div className="flex justify-end">
-          <Button disabled={isSubmitting} type="submit" className="w-full">
-            {isSubmitting ? (
-              <ReloadIcon className="h-4 w-4 animate-spin" />
-            ) : (
-              "Confirmar"
-            )}
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button>Confirmar</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Sua segurança é nossa prioridade!</DialogTitle>
+                <DialogDescription>
+                  Antes de prosseguir, é necessário garantir que você possui os
+                  equipamentos de segurança obrigatórios!{" "}
+                  <strong>
+                    Sem esses itens, não será permitida a entrada nas
+                    instalações!
+                  </strong>
+                  <div className="flex justify-center items-center">
+                    <Image src={worker} width={120} className="tra" />
+                    <div className="gap-4 flex flex-col justify-start items-start">
+                      {checks.map((c, idx) => (
+                        <div className="flex gap-2 w-full">
+                          <Checkbox
+                            id={idx}
+                            value={c}
+                            onCheckedChange={(value) => {
+                              if (value) {
+                                setChecked((state) => [...state, c]);
+                              } else {
+                                setChecked((state) =>
+                                  state.filter((v) => v != c)
+                                );
+                              }
+                            }}
+                          />
+                          <Label className="text-left" for={idx}>
+                            {c}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button
+                      type="submit"
+                      form="disponibilidade"
+                      disabled={
+                        !(checked.length == checks.length) || isSubmitting
+                      }
+                    >
+                      {isSubmitting ? (
+                        <ReloadIcon className="mx-12 h-4 w-4 animate-spin" />
+                      ) : (
+                        "Confirmar disponibilidade"
+                      )}
+                    </Button>
+                  </DialogFooter>
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
         </div>
       </form>
     </Form>
